@@ -1,0 +1,60 @@
+version: '2.2'
+services:
+  es_single-node:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+    container_name: es_single-node
+    ports:
+      - 9200:9200
+    environment:
+      - node.name=es_single-node
+      - cluster.name=es-docker-cluster_single-node
+      - discovery.seed_hosts=es_single-node
+      - cluster.initial_master_nodes=es_single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./elasticsearch/config/log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties
+      - es_single-node_data:/usr/share/elasticsearch/data
+      - es_single-node_logs:/usr/share/elasticsearch/logs
+    networks:
+      - es-docker-cluster_single-node
+    logging:
+      driver: local
+
+  # cerebro
+  lmenezes_cerebro:
+    image: lmenezes/cerebro
+    ports:
+      - 9000:9000
+    volumes:
+      - ./cerebro/conf/application.conf:/opt/cerebro/conf/application.conf
+    networks:
+      - es-docker-cluster_single-node
+
+  # kibana
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.10.2
+    ports:
+      - 15601:5601
+    environment:
+      SERVER_NAME: kibana_es_cluster_singel-node_docker
+      ELASTICSEARCH_HOSTS: '["http://es_single-node:9200"]'
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+    networks:
+      - es-docker-cluster_single-node
+
+volumes:
+  es_single-node_data:
+  es_single-node_logs:
+
+networks:
+  es-docker-cluster_single-node:

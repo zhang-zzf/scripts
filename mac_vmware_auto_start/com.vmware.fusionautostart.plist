@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Disabled</key>
+    <false/>
+    <key>Label</key>
+    <string>com.vmware.fusionautostart</string>
+
+    <key>ProgramArguments</key>
+    <array>
+      <string>/Users/admin/Workspace/NoBackups/vmware/autostart_darwin.sh</string>
+    </array>
+    <!--
+    set RunAtLoad false if you don't want that script starts
+    automatically every time your mac os x boots 
+    -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>WorkingDirectory</key>
+    <string>/Applications/VMware Fusion.app/Contents/MacOS</string>
+
+    <key>ExitTimeOut</key>
+    <integer>60</integer>
+
+    <key>StandardErrorPath</key>
+    <string>/var/log/vmware.fusion.err</string>
+    <key>StandardOutPath</key>
+    <string>/var/log/vmware.fusion.out</string>
+    <key>debug</key>
+    <true/>
+  </dict>
+</plist>

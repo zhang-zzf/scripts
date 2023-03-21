@@ -1,0 +1,51 @@
+version: '2.2'
+services:
+  # cerebro
+  lmenezes_cerebro:
+    image: lmenezes/cerebro
+    ports:
+      - 9010:9000
+    volumes:
+      - ./cerebro/conf/application.conf:/opt/cerebro/conf/application.conf
+
+  # kibana
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.17.6
+    ports:
+      - 15611:5601
+    environment:
+      SERVER_NAME: kibana_es_cluster_1_docker
+      ELASTICSEARCH_HOSTS: '["http://10.255.1.31:9200"]'
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./kibana/config:/usr/share/kibana/config
+      - kibana_es_cluster_1_docker:/usr/share/kibana/data
+
+  # metricbeat
+  metricbeat:
+    image: docker.elastic.co/beats/metricbeat:7.17.6
+    user: root
+    volumes:
+      - ./metricbeat/config/metricbeat.docker.yml:/usr/share/metricbeat/metricbeat.yml:ro
+      - ./metricbeat/config/modules.d/system.yml:/usr/share/metricbeat/modules.d/system.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      ELASTICSEARCH_HOSTS: '["http://10.255.1.31:9200"]'
+      ELASTICSEARCH_USERNAME: elastic
+      ELASTICSEARCH_PASSWORD: 8E78NY1mnfGvQJ6e7aHy
+
+  # elasticsearch for prometheus
+  elasticsearch_exporter:
+    image: quay.io/prometheuscommunity/elasticsearch-exporter:latest
+    command:
+     - '--es.uri=http://10.255.1.31:9200'
+     - '--es.all'
+    restart: always
+    ports:
+    - "9114:9114"
+
+volumes:
+  kibana_es_cluster_1_docker:
