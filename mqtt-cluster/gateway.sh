@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-workdir=$(
-  cd $(dirname $0)
+workdir="$(
+  cd "$(dirname "$0")" || exit
   pwd
-)
+)"
 echo "wordir-> $workdir"
 
 # install docker
