@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 workdir="/Applications/VMware Fusion.app/Contents"
-echo "vmware [$(date)] [$(whoami)] workdir-> ${workdir}"
+echo "vmware [$(date +"%Y-%m-%d %H:%M:%S")] [$(whoami)] workdir-> ${workdir}"
 vmware_dir="/Users/admin/Workspace/NoBackups/vmware"
 autostart_file="${vmware_dir}/autostart.vms"
 
