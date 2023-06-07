@@ -18,8 +18,8 @@ services:
         hard: -1
     volumes:
       - ./elasticsearch/config/log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties
-      - node_data:/usr/share/elasticsearch/data
-      - node_logs:/usr/share/elasticsearch/logs
+      - ./node_data:/usr/share/elasticsearch/data
+      - ./node_logs:/usr/share/elasticsearch/logs
     networks:
       - es-docker-cluster_single-node
     logging:
