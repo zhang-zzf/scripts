@@ -10,6 +10,7 @@ services:
       - discovery.type=single-node
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=true
     ulimits:
       memlock:
         soft: -1
@@ -37,7 +38,7 @@ services:
   kibana:
     image: docker.elastic.co/kibana/kibana:7.10.2
     ports:
-      - 15601:5601
+      - 0.0.0.0:15601:5601
     environment:
       SERVER_NAME: kibana_es_cluster_singel-node_docker
       ELASTICSEARCH_HOSTS: '["http://elasticsearch:9200"]'
