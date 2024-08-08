@@ -1,6 +1,6 @@
 # redis@3.2
 
-## master 
+## master
 
 standard-alone mode @6379
 
@@ -11,7 +11,6 @@ standard-alone mode @6379
 ## cluster
 
 3 master with 3 slaves for each master @7700 @7701 ... @7711
-
 
 ## sentinel
 

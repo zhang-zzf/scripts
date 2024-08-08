@@ -1,15 +1,13 @@
 #!/bin/bash
 # auth zzf.zhang
 
-workdir=$(
-  cd $(dirname $0)
-  pwd
-)
+workdir=$(cd "$(dirname "$0")" || exit && pwd)
 rm -f redis_nodes.txt
 
+# targetAddress redisStartPort instanceNum
 # admin@10.255.1.1:22 7000 16
 _create_node() {
-  cd ${workdir}
+  cd "${workdir}" || exit
   local address=${1}
   local redisPort=${2}
   local num=${3}
@@ -37,7 +35,9 @@ _create_node() {
       mv redis_7.0.5_64 redis_cluster/bin; \
       "
   # 创建目录
-  rm -r ${nodeIp}; mkdir ${nodeIp}; cd ${nodeIp}
+  rm -r ${nodeIp}
+  mkdir ${nodeIp}
+  cd ${nodeIp}
   # for
   ((num = ${num} - 1))
   for i in $(seq 0 ${num}); do
