@@ -13,15 +13,15 @@ _create_node() {
   local num=${3}
   # username@ip:port
   # 注意 有个空格
-  local arr=(${address//@/ })
+  local arr=("${address//@/ }")
   if [ ${#arr[*]} == 1 ]; then
     # 10.255.1.1:22
     local username="admin"
-    arr=(${arr[0]//:/ })
+    arr=("${arr[0]//:/ }")
   else
     # admin@10.255.1.1:22
     local username=${arr[0]}
-    arr=(${arr[1]//:/ })
+    arr=("${arr[1]//:/ }")
   fi
   local nodeIp=${arr[0]}
   # default 22
